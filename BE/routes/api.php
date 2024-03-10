@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PipelineController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Carbon;
@@ -23,17 +24,4 @@ Route::get("healthcheck", function (Request $request) {
     return response()->json(["health" => "OK"]);
 });
 
-Route::group(["prefix" => "pipeline/"], function () {
-    Route::get("healthcheck", function (Request $request) {
-        return response()->json(["health" => "OK", "routes" => "pipeline"]);
-    });
-
-    Route::get("date", function (Request $request) {
-        dd($request->date);
-        return Carbon::parse($request->date);
-    });
-
-    Route::get("time", function (Request $request) {
-        return Carbon::parse($request->time);
-    });
-});
+Route::post("pipeline/", PipelineController::class)->name("pipeline");
